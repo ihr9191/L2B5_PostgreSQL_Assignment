@@ -77,3 +77,8 @@ VALUES ('Zara Ahmed', 'Coastal Plains');
 -- Problem 2: Count unique species ever sighted
 SELECT COUNT(DISTINCT species_id) AS unique_species_count
 FROM sightings;
+
+-- Problem 3: Find all sightings where the location includes "Pass"
+SELECT *
+FROM sightings
+WHERE location ILIKE '%Pass%';

@@ -1,1 +1,69 @@
-PostgreSQL_Assignment
+-- PostgreSQL_Assignment.sql
+-- Wildlife Conservation Monitoring Assignment
+
+-- Step 1: Create the database
+CREATE DATABASE conservation_db;
+
+-- Connect to the database
+\c conservation_db
+
+-- Step 2: Drop existing tables if exist
+DROP TABLE IF EXISTS sightings;
+DROP TABLE IF EXISTS species;
+DROP TABLE IF EXISTS rangers;
+
+-- Step 3: Create the data tables
+
+-- Create rangers table
+CREATE TABLE rangers (
+    ranger_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    region TEXT NOT NULL
+);
+-- Create species table
+CREATE TABLE species (
+    species_id SERIAL PRIMARY KEY,
+    common_name TEXT NOT NULL,
+    scientific_name TEXT NOT NULL,
+    discovery_date DATE NOT NULL,
+    conservation_status TEXT NOT NULL CHECK (conservation_status IN ('Endangered', 'Vulnerable', 'Historic'))
+);
+-- Create sightings table
+CREATE TABLE sightings (
+    sighting_id SERIAL PRIMARY KEY,
+    species_id INT REFERENCES species(species_id) ON DELETE CASCADE,
+    ranger_id INT REFERENCES rangers(ranger_id) ON DELETE CASCADE,
+    sighting_time TIMESTAMP NOT NULL,
+    location TEXT NOT NULL,
+    notes TEXT
+);
+
+-- Step 4: Insert sample data
+-- Rangers
+INSERT INTO rangers (ranger_id, name, region) VALUES
+(1, 'Sofia Rahman', 'Blue Valley'),
+(2, 'Amir Khan', 'Silver Hills'),
+(3, 'Priya Sharma', 'Golden Plains'),
+(4, 'Ravi Patel', 'Emerald Forest'),
+(5, 'Nila Das', 'Crystal Ridge');
+
+-- Species
+INSERT INTO species (species_id, common_name, scientific_name, discovery_date, conservation_status) VALUES
+(1, 'Clouded Leopard', 'Neofelis nebulosa', '1775-01-01', 'Endangered'),
+(2, 'Royal Tiger', 'Panthera tigris regalis', '1758-01-01', 'Endangered'),
+(3, 'Himalayan Red Panda', 'Ailurus himalayensis', '1825-01-01', 'Vulnerable'),
+(4, 'Indian Rhino', 'Rhinoceros unicornis', '1826-03-12', 'Endangered'),
+(5, 'Great Hornbill', 'Buceros bicornis', '1861-11-09', 'Vulnerable'),
+(6, 'Siberian Mammoth', 'Mammuthus sibiricus', '1799-06-15', 'Historic'),
+(7, 'Mauritian Dodo', 'Raphus mauritianus', '1598-01-01', 'Historic'),
+(8, 'Mythical Dragon', 'Draco mythicus', '2024-01-01', 'Endangered');
+
+-- Sightings
+INSERT INTO sightings (sighting_id, species_id, ranger_id, sighting_time, location, notes) VALUES
+(1, 1, 1, '2024-05-10 07:45:00', 'Misty Pass', 'Camera trap image'),
+(2, 2, 2, '2024-05-12 16:20:00', 'River Bend', 'Juvenile observed'),
+(3, 3, 3, '2024-05-13 10:00:00', 'Bamboo Valley', 'Feeding activity'),
+(4, 4, 4, '2024-05-14 14:15:00', 'Forest Edge', 'Tracks near stream'),
+(5, 5, 5, '2024-05-15 08:00:00', 'Open Meadow', 'Flock in flight'),
+(6, 6, 1, '2024-05-16 13:00:00', 'Fossil Ground', 'Mammoth remains found'),
+(7, 7, 2, '2024-05-17 09:30:00', 'Ancient Site', 'Dodo artifacts observed');

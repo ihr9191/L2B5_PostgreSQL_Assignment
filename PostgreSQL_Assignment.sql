@@ -67,3 +67,9 @@ INSERT INTO sightings (sighting_id, species_id, ranger_id, sighting_time, locati
 (5, 5, 5, '2024-05-15 08:00:00', 'Open Meadow', 'Flock in flight'),
 (6, 6, 1, '2024-05-16 13:00:00', 'Fossil Ground', 'Mammoth remains found'),
 (7, 7, 2, '2024-05-17 09:30:00', 'Ancient Site', 'Dodo artifacts observed');
+
+-- Step 5: Solve the problems
+
+-- Problem 1: Register a new ranger
+INSERT INTO rangers (name, region)
+VALUES ('Zara Ahmed', 'Coastal Plains');
